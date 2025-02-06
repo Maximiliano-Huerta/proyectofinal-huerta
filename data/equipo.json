@@ -1,0 +1,7 @@
+[
+    { "nombre": "Casco", "obligatorio": true },
+    { "nombre": "Botines", "obligatorio": true },
+    { "nombre": "Lentes", "obligatorio": true },
+    { "nombre": "Chaleco Reflectivo", "obligatorio": true },
+    { "nombre": "Arnés de Seguridad", "obligatorio": true }
+]

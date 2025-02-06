@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Chequeo de EPP</title>
+    <link rel="stylesheet" href="./css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 -->
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Simulador de Chequeo de EPP</h1>
+
+        <div class="user-info">
+            <h2>Información del Trabajador</h2>
+            <div class="input-group">
+                <label for="nombre">👷 Nombre:</label>
+                <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+            </div>
+            <div class="input-group">
+                <label for="edad">🎂 Edad:</label>
+                <input type="number" id="edad" placeholder="Ingresa tu edad">
+            </div>
+            <div class="input-group">
+                <label for="puesto">💼 Puesto:</label>
+                <input type="text" id="puesto" placeholder="Ingresa tu puesto de trabajo">
+            </div>
+        </div>
+
+        <h2>Selecciona el EPP que llevas</h2>
+        <div id="equipo-list"></div>
+
+        <button id="verificar">✅ Verificar EPP</button>
+        <div id="resultado" class="result"></div>
+
+        <button id="descargar-pdf">📥 Generar Reporte PDF</button>
+
+        <a href="./pages/historial.html" class="btn-historial">📜 Ver Historial Completo</a>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

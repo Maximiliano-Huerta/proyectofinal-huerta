@@ -1,6 +1,5 @@
 /* ======== Estilos Generales ======== */
 body {
-    width: 100%;
     font-family: Arial, sans-serif;
     background: url('../img/fondo.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -13,7 +12,7 @@ body {
     max-width: 600px;
     margin: 30px auto;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.9); /* Fondo con transparencia */
+    background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(5px);
@@ -26,16 +25,13 @@ h1, h2 {
     font-weight: bold;
 }
 
-/* ======== Información del Personal (Mejor Alineado) ======== */
+/* ======== Información del Personal ======== */
 .user-info {
     background: #e3f2fd;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espaciado entre los campos */
 }
 
 .input-group {
@@ -53,30 +49,16 @@ h1, h2 {
     border: 2px solid #007bff;
     border-radius: 5px;
     font-size: 16px;
-    outline: none;
     transition: border-color 0.3s ease;
 }
 
-.input-group input:focus {
-    border-color: #0056b3;
-    box-shadow: 0 0 5px rgba(0, 91, 187, 0.5);
-}
-/* ======== Sección de Información del Trabajador ======== */
-.user-info {
-    background: #e3f2fd;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+/* Resaltar el grupo completo al enfocar */
+.input-group:focus-within {
+    border-left: 4px solid #007bff;
+    padding-left: 5px;
 }
 
-
-
-
-
-
-
-/* ======== Mejor Selección de EPP (Ahora se mantienen marcados) ======== */
+/* ======== Selección de EPP ======== */
 #equipo-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -88,7 +70,6 @@ h1, h2 {
 .equipo-item {
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 12px;
     border: 2px solid #007bff;
     border-radius: 8px;
@@ -107,32 +88,23 @@ h1, h2 {
     cursor: pointer;
 }
 
-/* ✅ Cuando se selecciona un EPP, cambia de color */
-.equipo-item.selected {
+/* ✅ Cambio de color cuando se selecciona */
+.equipo-item.selected,
+.equipo-item:hover {
     background: #007bff;
     color: white;
-    border-color: #0056b3;
     transform: scale(1.05);
 }
 
-
-/* ======== Mejoras en Selección de EPP ======== */
-#equipo-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    justify-content: center;
-    margin-top: 15px;
+/* Íconos de EPP */
+.epp-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
-
-.equipo-item:hover {
-    background-color: #007bff;
-    color: white;
-    transform: scale(1.05);
-}
-
-/* ======== Botones con Animaciones Mejoradas ======== */
+/* ======== Botones ======== */
 button {
     display: block;
     width: 100%;
@@ -147,11 +119,10 @@ button {
     margin-top: 15px;
 }
 
-/* Botón "Verificar EPP" */
+/* Botón "Verificar EPP" con animación */
 #verificar {
     background: linear-gradient(45deg, #28a745, #218838);
     color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     animation: pulse 1.5s infinite alternate;
 }
 
@@ -160,29 +131,30 @@ button {
     transform: scale(1.05);
 }
 
+/* Botón "Descargar PDF" */
+#descargar-pdf {
+    background: linear-gradient(45deg, #17a2b8, #138496);
+    color: white;
+}
+
+#descargar-pdf:hover {
+    background: linear-gradient(45deg, #138496, #117a8b);
+}
+
 /* Botón "Limpiar Historial" */
 #limpiar-historial {
     background: linear-gradient(45deg, #dc3545, #c82333);
     color: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 #limpiar-historial:hover {
     background: linear-gradient(45deg, #c82333, #a71d2a);
-    transform: scale(1.05);
 }
 
-/* Efecto de pulsación al hacer clic */
-button:active {
-    transform: scale(0.95);
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* ======== Botones de Navegación ======== */
+/* Botones de Navegación */
 .btn-historial, .btn-volver {
     display: block;
     text-align: center;
-    margin-top: 15px;
     padding: 10px;
     background-color: #4a28a7;
     color: white;
@@ -255,14 +227,5 @@ button:active {
     100% {
         transform: scale(1.05);
         box-shadow: 0 0 20px rgba(40, 167, 69, 0.8);
-    }
-}
-
-/* ======== Corrección para SweetAlert2 ======== */
-@keyframes swal2-animate-success-line-tip {
-    0% {
-        top: 1.1875em;
-        transform: translateX(-10px);
-        width: 0;
     }
 }

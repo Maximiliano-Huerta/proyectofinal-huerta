@@ -1,39 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
-    generarFormulario();
+    cargarEPP(); // Cargar la lista de EPP cuando la página cargue
     document.getElementById("verificar").addEventListener("click", verificarEPP);
 });
 
-// Lista de elementos de protección personal requeridos
-const equipoRequerido = [
-    { nombre: "Casco", obligatorio: true },
-    { nombre: "Botines", obligatorio: true },
-    { nombre: "Lentes", obligatorio: true },
-    { nombre: "Chaleco Reflectivo", obligatorio: true },
-    { nombre: "Arnés de Seguridad", obligatorio: true }
-];
+// Función para cargar la lista de EPP usando fetch
+function cargarEPP() {
+    fetch("./data/epp.json")
+        .then(response => response.json()) // Convertir a JSON
+        .then(data => {
+            mostrarEPP(data); // Llamar a la función para mostrar los datos
+        })
+        .catch(error => console.error("Error al cargar el EPP:", error));
+}
 
-// Función para generar los checkboxes en la interfaz
-function generarFormulario() {
+// Función para mostrar la lista de EPP en la interfaz
+function mostrarEPP(equipos) {
     const equipoList = document.getElementById("equipo-list");
-    equipoRequerido.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.className = "equipo-item";
+    equipoList.innerHTML = ""; // Limpiar lista antes de agregar elementos
 
-        const checkbox = document.createElement("input");
+    equipos.forEach((epp, index) => {
+        let item = document.createElement("div");
+        item.classList.add("equipo-item");
+
+        let checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-        checkbox.id = `equipo-${index}`;
-        checkbox.dataset.nombre = item.nombre;
-        checkbox.title = `Selecciona si llevas ${item.nombre}`; // Agregar title para accesibilidad
+        checkbox.id = `epp-${index}`;
+        checkbox.dataset.nombre = epp.nombre;
+        checkbox.addEventListener("change", () => {
+            item.classList.toggle("selected", checkbox.checked);
+        });
 
-        const label = document.createElement("label");
-        label.htmlFor = `equipo-${index}`; // Asociar el label con el checkbox
-        label.textContent = item.nombre;
+        let label = document.createElement("label");
+        label.htmlFor = `epp-${index}`;
+        label.innerHTML = `<img src="${epp.imagen}" alt="${epp.nombre}" class="epp-icon"> ${epp.nombre}`;
 
-        div.appendChild(checkbox);
-        div.appendChild(label);
-        equipoList.appendChild(div);
+        item.appendChild(checkbox);
+        item.appendChild(label);
+        equipoList.appendChild(item);
     });
 }
+
 // Función para verificar el EPP
 function verificarEPP() {
     const nombre = document.getElementById("nombre").value.trim();
@@ -46,19 +52,16 @@ function verificarEPP() {
         return;
     }
 
-    resultadoDiv.innerHTML = ""; // Limpia el contenido previo
-
     let cumpleTodo = true;
     let mensaje = `<strong>Resultados para ${nombre}:</strong><ul>`;
     let equipoUsado = [];
 
-    equipoRequerido.forEach((item, index) => {
-        const checkbox = document.getElementById(`equipo-${index}`);
+    document.querySelectorAll("#equipo-list input[type='checkbox']").forEach(checkbox => {
         if (checkbox.checked) {
-            mensaje += `<li>✅ ${item.nombre}: En buen estado.</li>`;
-            equipoUsado.push(item.nombre);
+            mensaje += `<li>✅ ${checkbox.dataset.nombre}: En buen estado.</li>`;
+            equipoUsado.push(checkbox.dataset.nombre);
         } else {
-            mensaje += `<li>❌ ${item.nombre}: FALTA o en mal estado.</li>`;
+            mensaje += `<li>❌ ${checkbox.dataset.nombre}: FALTA o en mal estado.</li>`;
             cumpleTodo = false;
         }
     });
@@ -70,7 +73,6 @@ function verificarEPP() {
 
     resultadoDiv.innerHTML = mensaje;
 
-    // Guardar resultados en el historial
     guardarEnHistorial(nombre, edad, puesto, equipoUsado, cumpleTodo);
 }
 
@@ -95,33 +97,7 @@ function guardarEnHistorial(nombre, edad, puesto, equipo, cumpleTodo) {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-    const equipoItems = document.querySelectorAll(".equipo-item");
-
-    equipoItems.forEach(item => {
-        item.addEventListener("click", function () {
-            const checkbox = item.querySelector("input");
-
-            checkbox.checked = !checkbox.checked;
-
-            // ✅ Agrega o quita la clase "selected" para que el color cambie
-            if (checkbox.checked) {
-                item.classList.add("selected");
-            } else {
-                item.classList.remove("selected");
-            }
-        });
-    });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Verifica que el botón existe antes de agregar el evento
-    const botonPDF = document.getElementById("descargar-pdf");
-    if (botonPDF) {
-        botonPDF.addEventListener("click", generarPDF);
-    }
-});
-
+// Función para generar el PDF con los datos del trabajador y EPP
 function generarPDF() {
     console.log("Generando PDF..."); // 👈 Verificar en consola si la función se ejecuta
 
@@ -153,13 +129,13 @@ function generarPDF() {
 
         y += 10;
 
-        let elementosSeleccionados = document.querySelectorAll(".equipo-item input:checked");
+        let elementosSeleccionados = document.querySelectorAll("#equipo-list input:checked");
 
         if (elementosSeleccionados.length === 0) {
             doc.text("⚠ No se seleccionó ningún EPP", 25, y);
         } else {
             elementosSeleccionados.forEach((checkbox) => {
-                doc.text(`✔ ${checkbox.getAttribute("data-nombre")}`, 25, y);
+                doc.text(`✔ ${checkbox.dataset.nombre}`, 25, y);
                 y += 10;
             });
         }
@@ -171,3 +147,13 @@ function generarPDF() {
         console.error("jsPDF no está cargado correctamente.");
     }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const botonPDF = document.getElementById("descargar-pdf");
+    if (botonPDF) {
+        botonPDF.addEventListener("click", generarPDF);
+    }
+});
+
+
+

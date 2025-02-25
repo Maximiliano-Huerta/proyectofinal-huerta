@@ -1,0 +1,8 @@
+[
+    { "id": 1, "nombre": "Casco", "imagen": "img/casco.png" },
+    { "id": 2, "nombre": "Botines", "imagen": "img/botines.png" },
+    { "id": 3, "nombre": "Lentes", "imagen": "img/lentes.png" },
+    { "id": 4, "nombre": "Chaleco Reflectivo", "imagen": "img/chaleco.png" },
+    { "id": 5, "nombre": "Arnés de Seguridad", "imagen": "img/arnes.png" }
+  ]
+  

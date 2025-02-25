@@ -4,16 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function mostrarHistorialPersonal() {
     const historialDiv = document.getElementById("historial");
+    if (!historialDiv) return; // Evitar errores si no se encuentra el contenedor
+
     historialDiv.innerHTML = ""; // Limpiar contenido previo
     const historial = JSON.parse(localStorage.getItem("historialEPP")) || [];
 
-    if (historial.length === 0) {
+    if (!historial.length) {
         historialDiv.innerHTML = "<p class='text-center text-muted'>No hay registros de personal.</p>";
         return;
     }
 
     historial.forEach((registro) => {
-        const registroDiv = document.createElement("div");
+        const registroDiv = document.createElement("article");
         registroDiv.className = `history-card ${registro.estado === "Cumple" ? "cumple" : "no-cumple"}`;
         registroDiv.innerHTML = `
             <div class="history-header">
@@ -30,7 +32,9 @@ function mostrarHistorialPersonal() {
             <div class="history-results">
                 <h4>🦺 EPP Utilizado:</h4>
                 <ul>
-                    ${registro.equipo.length > 0 ? registro.equipo.map(item => `<li>✅ ${item}</li>`).join("") : "<li>❌ No lleva EPP suficiente</li>"}
+                    ${Array.isArray(registro.equipo) && registro.equipo.length > 0 
+                        ? registro.equipo.map(item => `<li>✅ ${item}</li>`).join("")
+                        : "<li>❌ No lleva EPP suficiente</li>"}
                 </ul>
             </div>
         `;
@@ -50,7 +54,7 @@ function limpiarHistorial() {
     }).then((result) => {
         if (result.isConfirmed) {
             localStorage.removeItem("historialEPP");
-            mostrarHistorialPersonal(); // Asegurar que se actualiza la vista
+            mostrarHistorialPersonal(); // Actualizar la vista
             Swal.fire("¡Eliminado!", "El historial ha sido borrado.", "success");
         }
     });
